@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Out;
 use Illuminate\Http\Request;
+use App\Rules\Check_item_stock;
 use Validator;
-
 class OutsController extends Controller
 
 {
@@ -123,7 +123,7 @@ class OutsController extends Controller
     {
         $rules = [
             'item_id' =>  'required|exists:App\Item,id|integer|digits_between:1,20',
-            'jumlah' =>  'required|integer|digits_between:1,11',
+            'jumlah' =>  [new Check_item_stock($request->item_id),'required','integer','digits_between:1,11'],
             'keterangan'  =>  'required|string|between:1,225',
         ];
 
